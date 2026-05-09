@@ -1,125 +1,641 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>My Portfolio</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-  margin: 0;
-  font-family: system-ui, Arial, sans-serif;
-  color: #d9ecff;
-  background: #00060f;
-  overflow-x: hidden;
+
+:root{
+    --bg:#02040a;
+    --bg2:#07111f;
+    --primary:#63d7ff;
+    --soft:#89e2ff;
+    --dim:#7aa6bf;
+    --line:rgba(120,210,255,0.12);
+    --glass:rgba(7,18,32,0.55);
 }
 
-/* === BIOLUMINESCENT GRID BACKGROUND === */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(0,180,255,0.15), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(0,120,255,0.12), transparent 45%),
-    linear-gradient(rgba(0, 160, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 160, 255, 0.05) 1px, transparent 1px);
-  background-size: auto, auto, 60px 60px, 60px 60px;
-  animation: drift 12s infinite linear;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-@keyframes drift {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+html{
+    scroll-behavior:smooth;
 }
 
-/* soft wave glow layer */
-.wave {
-  position: fixed;
-  width: 200%;
-  height: 200px;
-  top: 40%;
-  left: -50%;
-  background: radial-gradient(circle, rgba(0,200,255,0.2), transparent 60%);
-  filter: blur(40px);
-  animation: waveMove 8s infinite ease-in-out;
+body{
+    font-family:'Space Grotesk',sans-serif;
+    background:
+    radial-gradient(circle at top left, rgba(0,180,255,0.12), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(0,120,255,0.10), transparent 40%),
+    linear-gradient(to bottom, #010308, #030814 50%, #02050d);
+    color:#e9f7ff;
+    overflow-x:hidden;
 }
 
-@keyframes waveMove {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-60px); }
+/* atmospheric grid */
+
+.grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(130,220,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130,220,255,0.04) 1px, transparent 1px);
+    background-size:70px 70px;
+    mask-image:radial-gradient(circle at center, black 30%, transparent 85%);
+    pointer-events:none;
+    z-index:-3;
 }
 
-.container {
-  max-width: 850px;
-  margin: 90px auto;
-  padding: 0 20px;
-  position: relative;
+/* drifting glow */
+
+.glow{
+    position:fixed;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:0.16;
+    z-index:-2;
 }
 
-h1 {
-  font-size: 44px;
-  margin-bottom: 8px;
-  color: #eaf6ff;
-  text-shadow: 0 0 12px rgba(0,180,255,0.4);
+.glow.one{
+    background:#0088ff;
+    top:-200px;
+    left:-150px;
+    animation:float1 18s ease-in-out infinite;
 }
 
-.subtitle {
-  color: #8fbfff;
-  margin-bottom: 40px;
+.glow.two{
+    background:#00cfff;
+    bottom:-250px;
+    right:-200px;
+    animation:float2 22s ease-in-out infinite;
 }
 
-.card {
-  background: rgba(5, 15, 30, 0.65);
-  border: 1px solid rgba(0, 170, 255, 0.25);
-  border-radius: 14px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 25px rgba(0, 140, 255, 0.12);
+@keyframes float1{
+    0%,100%{transform:translateY(0px);}
+    50%{transform:translateY(60px);}
 }
 
-.card h2 {
-  margin-top: 0;
-  color: #bfe6ff;
+@keyframes float2{
+    0%,100%{transform:translateY(0px);}
+    50%{transform:translateY(-80px);}
 }
 
-a {
-  color: #3dbbff;
-  text-decoration: none;
+/* sonar sweep */
+
+.sonar{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-1;
 }
 
-a:hover {
-  text-shadow: 0 0 10px rgba(0,180,255,0.8);
+.sonar::before{
+    content:"";
+    position:absolute;
+    width:140%;
+    height:2px;
+    background:linear-gradient(to right, transparent, rgba(120,240,255,0.6), transparent);
+    top:-10%;
+    left:-20%;
+    filter:blur(2px);
+    animation:scan 15s linear infinite;
 }
+
+@keyframes scan{
+    from{
+        transform:translateY(0vh);
+    }
+    to{
+        transform:translateY(120vh);
+    }
+}
+
+/* particles */
+
+.particle{
+    position:fixed;
+    width:2px;
+    height:2px;
+    background:rgba(140,220,255,0.55);
+    border-radius:50%;
+    pointer-events:none;
+    animation:drift linear infinite;
+}
+
+@keyframes drift{
+    from{
+        transform:translateY(0px);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+/* sections */
+
+section{
+    width:min(1100px, 90%);
+    margin:auto;
+    position:relative;
+}
+
+/* hero */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.hero h1{
+    font-size:clamp(4rem, 10vw, 7rem);
+    font-weight:700;
+    letter-spacing:-4px;
+    line-height:0.9;
+    margin-bottom:24px;
+    text-shadow:0 0 30px rgba(120,220,255,0.15);
+}
+
+.hero p{
+    color:var(--dim);
+    font-size:1.1rem;
+    max-width:600px;
+    line-height:1.8;
+}
+
+.scroll{
+    margin-top:120px;
+    color:var(--soft);
+    opacity:0.8;
+    letter-spacing:2px;
+    font-size:0.9rem;
+    animation:softFloat 4s ease-in-out infinite;
+}
+
+@keyframes softFloat{
+    0%,100%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(10px);
+    }
+}
+
+/* conceptual section */
+
+.concept{
+    padding:180px 0;
+}
+
+.question-box{
+    border:1px solid rgba(120,220,255,0.18);
+    background:var(--glass);
+    backdrop-filter:blur(12px);
+    padding:60px;
+    border-radius:28px;
+    position:relative;
+    overflow:hidden;
+    transition:0.5s ease;
+}
+
+.question-box:hover{
+    border-color:rgba(120,220,255,0.4);
+    box-shadow:0 0 40px rgba(0,180,255,0.12);
+}
+
+.question-box::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg, transparent, rgba(120,220,255,0.04), transparent);
+    transform:translateX(-100%);
+    transition:1s;
+}
+
+.question-box:hover::before{
+    transform:translateX(100%);
+}
+
+.question{
+    font-size:clamp(2rem,5vw,4rem);
+    line-height:1.1;
+    margin-bottom:24px;
+}
+
+.answer{
+    color:var(--dim);
+    font-size:1.05rem;
+    line-height:1.9;
+    max-width:700px;
+}
+
+/* projects */
+
+.projects{
+    padding:120px 0;
+}
+
+.section-title{
+    font-size:2.5rem;
+    margin-bottom:60px;
+}
+
+.project-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:28px;
+}
+
+.card{
+    background:var(--glass);
+    border:1px solid rgba(120,220,255,0.12);
+    border-radius:24px;
+    padding:32px;
+    transition:0.45s ease;
+    backdrop-filter:blur(12px);
+    position:relative;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(120,220,255,0.35);
+    box-shadow:0 0 40px rgba(0,180,255,0.16);
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at top left, rgba(120,220,255,0.08), transparent 50%);
+    opacity:0;
+    transition:0.5s;
+}
+
+.card:hover::after{
+    opacity:1;
+}
+
+.card h3{
+    margin-bottom:16px;
+    font-size:1.5rem;
+}
+
+.card p{
+    color:var(--dim);
+    line-height:1.8;
+    margin-bottom:28px;
+}
+
+.buttons{
+    display:flex;
+    gap:14px;
+}
+
+.btn{
+    padding:12px 18px;
+    border-radius:999px;
+    border:1px solid rgba(120,220,255,0.2);
+    color:var(--soft);
+    text-decoration:none;
+    transition:0.3s ease;
+}
+
+.btn:hover{
+    background:rgba(120,220,255,0.08);
+    border-color:rgba(120,220,255,0.45);
+}
+
+/* featured waveform */
+
+.featured{
+    padding:160px 0;
+}
+
+.wave-container{
+    margin-top:40px;
+    height:220px;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid rgba(120,220,255,0.12);
+    background:
+    linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.85)),
+    repeating-linear-gradient(
+        to right,
+        rgba(120,220,255,0.03),
+        rgba(120,220,255,0.03) 1px,
+        transparent 1px,
+        transparent 50px
+    );
+    position:relative;
+}
+
+.wave{
+    position:absolute;
+    width:200%;
+    height:100%;
+    background:
+    radial-gradient(circle at center, rgba(120,240,255,0.85) 0%, transparent 60%);
+    opacity:0.4;
+    animation:waveMove 8s linear infinite;
+    filter:blur(30px);
+}
+
+@keyframes waveMove{
+    from{
+        transform:translateX(-50%);
+    }
+    to{
+        transform:translateX(0%);
+    }
+}
+
+/* skills */
+
+.skills{
+    padding:120px 0;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+}
+
+.tag{
+    padding:14px 22px;
+    border-radius:999px;
+    background:rgba(120,220,255,0.06);
+    border:1px solid rgba(120,220,255,0.14);
+    color:var(--soft);
+    transition:0.35s ease;
+}
+
+.tag:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 20px rgba(0,180,255,0.14);
+}
+
+/* contact */
+
+.contact{
+    padding:180px 0 120px;
+    text-align:center;
+}
+
+.contact h2{
+    font-size:clamp(2rem,5vw,4rem);
+    margin-bottom:28px;
+}
+
+.contact a{
+    color:var(--soft);
+    text-decoration:none;
+    font-size:1.05rem;
+    border-bottom:1px solid rgba(120,220,255,0.25);
+    padding-bottom:6px;
+}
+
+.contact a:hover{
+    color:white;
+}
+
+footer{
+    text-align:center;
+    color:rgba(180,220,255,0.4);
+    padding-bottom:60px;
+    font-size:0.9rem;
+}
+
+/* reveal animations */
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s ease;
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:translateY(0px);
+}
+
+/* responsive */
+
+@media(max-width:768px){
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .question-box{
+        padding:36px;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="wave"></div>
+<div class="grid"></div>
 
-<div class="container">
+<div class="glow one"></div>
+<div class="glow two"></div>
 
-  <h1>My Portfolio</h1>
-  <div class="subtitle">
-    Signal processing • audio systems • C programming
-  </div>
+<div class="sonar"></div>
 
-  <div class="card">
-    <h2>Echolocation Project</h2>
-    <p>
-      A WAV audio cleaner written in C inspired by frequency filtering and signal analysis.
-    </p>
+<section class="hero">
+    <h1>My Portfolio</h1>
 
     <p>
-      <a href="https://github.com/mariana-nikolyan/echolocation" target="_blank">
-        View GitHub Repository →
-      </a>
+        Signal processing • audio systems • low-level programming
     </p>
-  </div>
 
-</div>
+    <div class="scroll">
+        Scroll to descend ↓
+    </div>
+</section>
+
+<section class="concept reveal">
+
+    <div class="question-box">
+
+        <div class="question">
+            How do you extract meaning from noise?
+        </div>
+
+        <div class="answer">
+            Signal processing transforms invisible frequency structures into readable information. Hidden patterns emerge through filtering, analysis, and interpretation — converting distortion into clarity.
+        </div>
+
+    </div>
+
+</section>
+
+<section class="projects reveal">
+
+    <div class="section-title">
+        Detected Signals
+    </div>
+
+    <div class="project-grid">
+
+        <div class="card">
+
+            <h3>Echolocation Project</h3>
+
+            <p>
+                A WAV audio cleaner written in C inspired by signal filtering, frequency analysis, and underwater sonar systems.
+            </p>
+
+            <div class="buttons">
+
+                <a class="btn" href="#">
+                    View Project
+                </a>
+
+                <a class="btn" href="https://github.com/YOURUSERNAME/echolocation" target="_blank">
+                    Source Code
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>FFT Analysis</h3>
+
+            <p>
+                Experimental frequency-domain processing and spectral interpretation using low-level computational techniques.
+            </p>
+
+            <div class="buttons">
+
+                <a class="btn" href="#">
+                    Explore
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="featured reveal">
+
+    <div class="section-title">
+        Active Frequency Field
+    </div>
+
+    <div class="wave-container">
+        <div class="wave"></div>
+    </div>
+
+</section>
+
+<section class="skills reveal">
+
+    <div class="section-title">
+        Technologies
+    </div>
+
+    <div class="tags">
+
+        <div class="tag">C</div>
+        <div class="tag">FFT</div>
+        <div class="tag">Signal Processing</div>
+        <div class="tag">WAV Parsing</div>
+        <div class="tag">Git</div>
+        <div class="tag">CLI Development</div>
+
+    </div>
+
+</section>
+
+<section class="contact reveal">
+
+    <h2>Transmit a signal</h2>
+
+    <a href="mailto:youremail@example.com">
+        youremail@example.com
+    </a>
+
+</section>
+
+<footer>
+    End of transmission.
+</footer>
+
+<script>
+
+/* particles */
+
+for(let i = 0; i < 60; i++){
+
+    const particle = document.createElement("div");
+
+    particle.classList.add("particle");
+
+    particle.style.left = Math.random() * 100 + "vw";
+
+    particle.style.top = Math.random() * 100 + "vh";
+
+    particle.style.animationDuration = 15 + Math.random() * 20 + "s";
+
+    particle.style.animationDelay = Math.random() * 10 + "s";
+
+    document.body.appendChild(particle);
+}
+
+/* reveal on scroll */
+
+const reveals = document.querySelectorAll(".reveal");
+
+const observer = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+        }
+
+    });
+
+},{
+    threshold:0.15
+});
+
+reveals.forEach(r => observer.observe(r));
+
+</script>
 
 </body>
 </html>
+```
+
