@@ -1,19 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <title>My Portfolio</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
-
 <style>
-
 :root{
     --bg:#02040a;
     --bg2:#07111f;
@@ -23,618 +17,275 @@
     --line:rgba(120,210,255,0.12);
     --glass:rgba(7,18,32,0.55);
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
 body{
     font-family:'Space Grotesk',sans-serif;
     background:
-    radial-gradient(circle at top left, rgba(0,180,255,0.12), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(0,120,255,0.10), transparent 40%),
-    linear-gradient(to bottom, #010308, #030814 50%, #02050d);
+        radial-gradient(circle at top left, rgba(0,180,255,0.12), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(0,120,255,0.10), transparent 40%),
+        linear-gradient(to bottom, #010308, #030814 50%, #02050d);
     color:#e9f7ff;
     overflow-x:hidden;
 }
-
-/* atmospheric grid */
-
 .grid{
-    position:fixed;
-    inset:0;
+    position:fixed; inset:0;
     background-image:
-    linear-gradient(rgba(130,220,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(130,220,255,0.04) 1px, transparent 1px);
+        linear-gradient(rgba(130,220,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(130,220,255,0.04) 1px, transparent 1px);
     background-size:70px 70px;
     mask-image:radial-gradient(circle at center, black 30%, transparent 85%);
-    pointer-events:none;
-    z-index:-3;
+    pointer-events:none; z-index:-3;
 }
-
-/* drifting glow */
-
-.glow{
-    position:fixed;
-    width:700px;
-    height:700px;
-    border-radius:50%;
-    filter:blur(120px);
-    opacity:0.16;
-    z-index:-2;
-}
-
-.glow.one{
-    background:#0088ff;
-    top:-200px;
-    left:-150px;
-    animation:float1 18s ease-in-out infinite;
-}
-
-.glow.two{
-    background:#00cfff;
-    bottom:-250px;
-    right:-200px;
-    animation:float2 22s ease-in-out infinite;
-}
-
-@keyframes float1{
-    0%,100%{transform:translateY(0px);}
-    50%{transform:translateY(60px);}
-}
-
-@keyframes float2{
-    0%,100%{transform:translateY(0px);}
-    50%{transform:translateY(-80px);}
-}
-
-/* sonar sweep */
-
-.sonar{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:-1;
-}
-
+.glow{ position:fixed; width:700px; height:700px; border-radius:50%; filter:blur(120px); opacity:0.16; z-index:-2; }
+.glow.one{ background:#0088ff; top:-200px; left:-150px; animation:float1 18s ease-in-out infinite; }
+.glow.two{ background:#00cfff; bottom:-250px; right:-200px; animation:float2 22s ease-in-out infinite; }
+@keyframes float1{ 0%,100%{transform:translateY(0px);} 50%{transform:translateY(60px);} }
+@keyframes float2{ 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-80px);} }
+.sonar{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:-1; }
 .sonar::before{
-    content:"";
-    position:absolute;
-    width:140%;
-    height:2px;
+    content:""; position:absolute; width:140%; height:2px;
     background:linear-gradient(to right, transparent, rgba(120,240,255,0.6), transparent);
-    top:-10%;
-    left:-20%;
-    filter:blur(2px);
-    animation:scan 15s linear infinite;
+    top:-10%; left:-20%; filter:blur(2px); animation:scan 15s linear infinite;
 }
-
-@keyframes scan{
-    from{
-        transform:translateY(0vh);
-    }
-    to{
-        transform:translateY(120vh);
-    }
-}
-
-/* particles */
-
-.particle{
-    position:fixed;
-    width:2px;
-    height:2px;
-    background:rgba(140,220,255,0.55);
-    border-radius:50%;
-    pointer-events:none;
-    animation:drift linear infinite;
-}
-
-@keyframes drift{
-    from{
-        transform:translateY(0px);
-        opacity:0;
-    }
-    20%{
-        opacity:1;
-    }
-    to{
-        transform:translateY(-120vh);
-        opacity:0;
-    }
-}
-
-/* sections */
-
-section{
-    width:min(1100px, 90%);
-    margin:auto;
-    position:relative;
-}
-
-/* hero */
-
-.hero{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.hero h1{
-    font-size:clamp(4rem, 10vw, 7rem);
-    font-weight:700;
-    letter-spacing:-4px;
-    line-height:0.9;
-    margin-bottom:24px;
-    text-shadow:0 0 30px rgba(120,220,255,0.15);
-}
-
-.hero p{
-    color:var(--dim);
-    font-size:1.1rem;
-    max-width:600px;
-    line-height:1.8;
-}
-
-.scroll{
-    margin-top:120px;
-    color:var(--soft);
-    opacity:0.8;
-    letter-spacing:2px;
-    font-size:0.9rem;
-    animation:softFloat 4s ease-in-out infinite;
-}
-
-@keyframes softFloat{
-    0%,100%{
-        transform:translateY(0px);
-    }
-    50%{
-        transform:translateY(10px);
-    }
-}
-
-/* conceptual section */
-
-.concept{
-    padding:180px 0;
-}
-
+@keyframes scan{ from{transform:translateY(0vh);} to{transform:translateY(120vh);} }
+.particle{ position:fixed; width:2px; height:2px; background:rgba(140,220,255,0.55); border-radius:50%; pointer-events:none; animation:drift linear infinite; }
+@keyframes drift{ from{transform:translateY(0px);opacity:0;} 20%{opacity:1;} to{transform:translateY(-120vh);opacity:0;} }
+section{ width:min(1100px, 90%); margin:auto; position:relative; }
+.hero{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; }
+.hero h1{ font-size:clamp(4rem, 10vw, 7rem); font-weight:700; letter-spacing:-4px; line-height:0.9; margin-bottom:24px; text-shadow:0 0 30px rgba(120,220,255,0.15); }
+.hero p{ color:var(--dim); font-size:1.1rem; max-width:600px; line-height:1.8; }
+.scroll{ margin-top:120px; color:var(--soft); opacity:0.8; letter-spacing:2px; font-size:0.9rem; animation:softFloat 4s ease-in-out infinite; }
+@keyframes softFloat{ 0%,100%{transform:translateY(0px);} 50%{transform:translateY(10px);} }
+.concept{ padding:180px 0; }
 .question-box{
-    border:1px solid rgba(120,220,255,0.18);
-    background:var(--glass);
-    backdrop-filter:blur(12px);
-    padding:60px;
-    border-radius:28px;
-    position:relative;
-    overflow:hidden;
-    transition:0.5s ease;
+    border:1px solid rgba(120,220,255,0.18); background:var(--glass);
+    backdrop-filter:blur(12px); padding:60px; border-radius:28px;
+    position:relative; overflow:hidden; transition:0.5s ease;
 }
-
-.question-box:hover{
-    border-color:rgba(120,220,255,0.4);
-    box-shadow:0 0 40px rgba(0,180,255,0.12);
-}
-
+.question-box:hover{ border-color:rgba(120,220,255,0.4); box-shadow:0 0 40px rgba(0,180,255,0.12); }
 .question-box::before{
-    content:"";
-    position:absolute;
-    inset:0;
+    content:""; position:absolute; inset:0;
     background:linear-gradient(120deg, transparent, rgba(120,220,255,0.04), transparent);
-    transform:translateX(-100%);
-    transition:1s;
+    transform:translateX(-100%); transition:1s;
 }
-
-.question-box:hover::before{
-    transform:translateX(100%);
-}
-
-.question{
-    font-size:clamp(2rem,5vw,4rem);
-    line-height:1.1;
-    margin-bottom:24px;
-}
-
-.answer{
-    color:var(--dim);
-    font-size:1.05rem;
-    line-height:1.9;
-    max-width:700px;
-}
-
-/* projects */
-
-.projects{
-    padding:120px 0;
-}
-
-.section-title{
-    font-size:2.5rem;
-    margin-bottom:60px;
-}
-
-.project-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:28px;
-}
-
+.question-box:hover::before{ transform:translateX(100%); }
+.question{ font-size:clamp(2rem,5vw,4rem); line-height:1.1; margin-bottom:24px; }
+.answer{ color:var(--dim); font-size:1.05rem; line-height:1.9; max-width:700px; }
+.projects{ padding:120px 0; }
+.section-title{ font-size:2.5rem; margin-bottom:60px; }
+.project-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:28px; }
 .card{
-    background:var(--glass);
-    border:1px solid rgba(120,220,255,0.12);
-    border-radius:24px;
-    padding:32px;
-    transition:0.45s ease;
-    backdrop-filter:blur(12px);
-    position:relative;
-    overflow:hidden;
+    background:var(--glass); border:1px solid rgba(120,220,255,0.12);
+    border-radius:24px; padding:32px; transition:0.45s ease;
+    backdrop-filter:blur(12px); position:relative; overflow:hidden;
 }
+.card:hover{ transform:translateY(-8px); border-color:rgba(120,220,255,0.35); box-shadow:0 0 40px rgba(0,180,255,0.16); }
+.card::after{ content:""; position:absolute; inset:0; background:radial-gradient(circle at top left, rgba(120,220,255,0.08), transparent 50%); opacity:0; transition:0.5s; }
+.card:hover::after{ opacity:1; }
+.card h3{ margin-bottom:16px; font-size:1.5rem; }
+.card p{ color:var(--dim); line-height:1.8; margin-bottom:28px; }
+.buttons{ display:flex; gap:14px; }
+.btn{ padding:12px 18px; border-radius:999px; border:1px solid rgba(120,220,255,0.2); color:var(--soft); text-decoration:none; transition:0.3s ease; }
+.btn:hover{ background:rgba(120,220,255,0.08); border-color:rgba(120,220,255,0.45); }
 
-.card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(120,220,255,0.35);
-    box-shadow:0 0 40px rgba(0,180,255,0.16);
-}
-
-.card::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at top left, rgba(120,220,255,0.08), transparent 50%);
-    opacity:0;
-    transition:0.5s;
-}
-
-.card:hover::after{
-    opacity:1;
-}
-
-.card h3{
-    margin-bottom:16px;
-    font-size:1.5rem;
-}
-
-.card p{
-    color:var(--dim);
-    line-height:1.8;
-    margin-bottom:28px;
-}
-
-.buttons{
-    display:flex;
-    gap:14px;
-}
-
-.btn{
-    padding:12px 18px;
-    border-radius:999px;
-    border:1px solid rgba(120,220,255,0.2);
-    color:var(--soft);
-    text-decoration:none;
-    transition:0.3s ease;
-}
-
-.btn:hover{
-    background:rgba(120,220,255,0.08);
-    border-color:rgba(120,220,255,0.45);
-}
-
-/* featured waveform */
-
-.featured{
-    padding:160px 0;
-}
-
+/* mic visualizer */
+.featured{ padding:160px 0; }
 .wave-container{
-    margin-top:40px;
-    height:220px;
-    border-radius:24px;
-    overflow:hidden;
-    border:1px solid rgba(120,220,255,0.12);
-    background:
-    linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.85)),
-    repeating-linear-gradient(
-        to right,
-        rgba(120,220,255,0.03),
-        rgba(120,220,255,0.03) 1px,
-        transparent 1px,
-        transparent 50px
-    );
-    position:relative;
+    margin-top:40px; height:220px; border-radius:24px; overflow:hidden;
+    border:1px solid rgba(120,220,255,0.18); background:rgba(4,10,20,0.7);
+    position:relative; cursor:pointer; transition:0.4s ease;
+}
+.wave-container:hover{
+    border-color:rgba(120,220,255,0.45);
+    box-shadow:0 0 30px rgba(0,180,255,0.12);
+}
+#waveCanvas{ position:absolute; inset:0; width:100%; height:100%; }
+.mic-overlay{
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:rgba(4,10,20,0.45); backdrop-filter:blur(2px);
+    transition:opacity 0.6s ease;
+}
+.mic-overlay.hidden{ opacity:0; pointer-events:none; }
+.mic-pill{
+    display:flex; flex-direction:column; align-items:center;
+    padding:20px 48px; border-radius:999px;
+    border:1px solid rgba(120,220,255,0.28);
+    background:rgba(0,140,255,0.06);
+    box-shadow:0 0 24px rgba(0,180,255,0.08), inset 0 0 20px rgba(0,180,255,0.04);
+    gap:6px;
+}
+.mic-tap{ font-size:1.1rem; color:#89e2ff; letter-spacing:2px; }
+.mic-sub{ font-size:0.72rem; color:rgba(120,200,255,0.45); letter-spacing:1.5px; }
+.privacy-note{
+    margin-top:16px; font-size:0.75rem;
+    color:rgba(120,180,220,0.4); letter-spacing:0.5px; line-height:1.7;
 }
 
-.wave{
-    position:absolute;
-    width:200%;
-    height:100%;
-    background:
-    radial-gradient(circle at center, rgba(120,240,255,0.85) 0%, transparent 60%);
-    opacity:0.4;
-    animation:waveMove 8s linear infinite;
-    filter:blur(30px);
-}
-
-@keyframes waveMove{
-    from{
-        transform:translateX(-50%);
-    }
-    to{
-        transform:translateX(0%);
-    }
-}
-
-/* skills */
-
-.skills{
-    padding:120px 0;
-}
-
-.tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:18px;
-}
-
-.tag{
-    padding:14px 22px;
-    border-radius:999px;
-    background:rgba(120,220,255,0.06);
-    border:1px solid rgba(120,220,255,0.14);
-    color:var(--soft);
-    transition:0.35s ease;
-}
-
-.tag:hover{
-    transform:translateY(-4px);
-    box-shadow:0 0 20px rgba(0,180,255,0.14);
-}
-
-/* contact */
-
-.contact{
-    padding:180px 0 120px;
-    text-align:center;
-}
-
-.contact h2{
-    font-size:clamp(2rem,5vw,4rem);
-    margin-bottom:28px;
-}
-
-.contact a{
-    color:var(--soft);
-    text-decoration:none;
-    font-size:1.05rem;
-    border-bottom:1px solid rgba(120,220,255,0.25);
-    padding-bottom:6px;
-}
-
-.contact a:hover{
-    color:white;
-}
-
-footer{
-    text-align:center;
-    color:rgba(180,220,255,0.4);
-    padding-bottom:60px;
-    font-size:0.9rem;
-}
-
-/* reveal animations */
-
-.reveal{
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s ease;
-}
-
-.reveal.visible{
-    opacity:1;
-    transform:translateY(0px);
-}
-
-/* responsive */
-
+.contact{ padding:180px 0 120px; text-align:center; }
+.contact h2{ font-size:clamp(2rem,5vw,4rem); margin-bottom:28px; }
+.contact a{ color:var(--soft); text-decoration:none; font-size:1.05rem; border-bottom:1px solid rgba(120,220,255,0.25); padding-bottom:6px; }
+.contact a:hover{ color:white; }
+footer{ text-align:center; color:rgba(180,220,255,0.4); padding-bottom:60px; font-size:0.9rem; }
+.reveal{ opacity:0; transform:translateY(40px); transition:1s ease; }
+.reveal.visible{ opacity:1; transform:translateY(0px); }
 @media(max-width:768px){
-
-    .hero h1{
-        letter-spacing:-2px;
-    }
-
-    .question-box{
-        padding:36px;
-    }
-
+    .hero h1{ letter-spacing:-2px; }
+    .question-box{ padding:36px; }
 }
-
 </style>
 </head>
-
 <body>
 
 <div class="grid"></div>
-
 <div class="glow one"></div>
 <div class="glow two"></div>
-
 <div class="sonar"></div>
 
 <section class="hero">
     <h1>My Portfolio</h1>
-
-    <p>
-        Signal processing • audio systems • low-level programming
-    </p>
-
-    <div class="scroll">
-        Scroll to descend ↓
-    </div>
+    <p>Signal processing • audio systems • low-level programming</p>
+    <div class="scroll">Scroll to descend ↓</div>
 </section>
 
 <section class="concept reveal">
-
     <div class="question-box">
-
-        <div class="question">
-            How do you extract meaning from noise?
-        </div>
-
+        <div class="question">How do you extract meaning from noise?</div>
         <div class="answer">
             Signal processing transforms invisible frequency structures into readable information. Hidden patterns emerge through filtering, analysis, and interpretation — converting distortion into clarity.
         </div>
-
     </div>
-
 </section>
 
 <section class="projects reveal">
-
-    <div class="section-title">
-        Detected Signals
-    </div>
-
+    <div class="section-title">Projects</div>
     <div class="project-grid">
-
         <div class="card">
-
             <h3>Echolocation Project</h3>
-
-            <p>
-                A WAV audio cleaner written in C inspired by signal filtering, frequency analysis, and underwater sonar systems.
-            </p>
-
+            <p>A WAV audio cleaner written in C inspired by signal filtering, frequency analysis, and underwater sonar systems.</p>
             <div class="buttons">
-
-                <a class="btn" href="#">
-                    View Project
-                </a>
-
-                <a class="btn" href="https://github.com/mariana-nikolyan/echolocation" target="_blank">
-                    Source Code
-                </a>
-
+                <a class="btn" href="https://github.com/mariana-nikolyan/echolocation" target="_blank">View Project</a>
             </div>
-
         </div>
-
         <div class="card">
-
             <h3>FFT Analysis</h3>
-
-            <p>
-                Experimental frequency-domain processing and spectral interpretation using low-level computational techniques.
-            </p>
-
+            <p>Experimental frequency-domain processing and spectral interpretation using low-level computational techniques.</p>
             <div class="buttons">
-
-                <a class="btn" href="#">
-                    Explore
-                </a>
-
+                <a class="btn" href="#">Explore</a>
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 <section class="featured reveal">
-
-    <div class="section-title">
-        Active Frequency Field
+    <div class="section-title">Live Signal</div>
+    <div class="wave-container" id="waveContainer">
+        <canvas id="waveCanvas"></canvas>
+        <div class="mic-overlay" id="micOverlay">
+            <div class="mic-pill">
+                <div class="mic-tap">Tap to Listen</div>
+                <div class="mic-sub">see the waveforms surrounding you live>
+            </div>
+        </div>
     </div>
-
-    <div class="wave-container">
-        <div class="wave"></div>
+    <div class="privacy-note">
+        Note: your microphone is only active while this page is open and you have granted access. No audio is recorded, stored, or transmitted anywhere.
     </div>
-
-</section>
-
-<section class="skills reveal">
-
-    <div class="section-title">
-        Technologies
-    </div>
-
-    <div class="tags">
-
-        <div class="tag">C</div>
-        <div class="tag">FFT</div>
-        <div class="tag">Signal Processing</div>
-        <div class="tag">WAV Parsing</div>
-        <div class="tag">Git</div>
-        <div class="tag">CLI Development</div>
-
-    </div>
-
 </section>
 
 <section class="contact reveal">
-
     <h2>Transmit a signal</h2>
-
-    <a href="mailto:mariananikolyan19@gmail.com">
-       mariananikolyan19@gmail.com
-    </a>
-
+    <a href="mailto:mariananikolyan19@gmail.com">mariananikolyan19@gmail.com</a>
 </section>
 
-<footer>
-    End of transmission.
-</footer>
+<footer>End of transmission.</footer>
 
 <script>
-
-/* particles */
-
 for(let i = 0; i < 60; i++){
-
-    const particle = document.createElement("div");
-
-    particle.classList.add("particle");
-
-    particle.style.left = Math.random() * 100 + "vw";
-
-    particle.style.top = Math.random() * 100 + "vh";
-
-    particle.style.animationDuration = 15 + Math.random() * 20 + "s";
-
-    particle.style.animationDelay = Math.random() * 10 + "s";
-
-    document.body.appendChild(particle);
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.top = Math.random() * 100 + "vh";
+    p.style.animationDuration = 15 + Math.random() * 20 + "s";
+    p.style.animationDelay = Math.random() * 10 + "s";
+    document.body.appendChild(p);
 }
 
-/* reveal on scroll */
-
 const reveals = document.querySelectorAll(".reveal");
-
 const observer = new IntersectionObserver(entries => {
-
-    entries.forEach(entry => {
-
-        if(entry.isIntersecting){
-            entry.target.classList.add("visible");
-        }
-
-    });
-
-},{
-    threshold:0.15
-});
-
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("visible"); });
+}, { threshold:0.15 });
 reveals.forEach(r => observer.observe(r));
 
-</script>
+const canvas = document.getElementById("waveCanvas");
+const ctx = canvas.getContext("2d");
+const waveContainer = document.getElementById("waveContainer");
+const micOverlay = document.getElementById("micOverlay");
 
+let animId, analyser, dataArray, active = false;
+
+function resizeCanvas(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function drawIdle(){
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+    const t = Date.now() / 1000;
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(100,200,255,0.25)";
+    ctx.lineWidth = 1.5;
+    for(let x = 0; x < w; x++){
+        const y = h/2 + Math.sin((x/w)*6 + t) * 12 + Math.sin((x/w)*14 - t*1.3) * 5;
+        x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    animId = requestAnimationFrame(drawIdle);
+}
+drawIdle();
+
+waveContainer.addEventListener("click", async () => {
+    if(active) return;
+    try{
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const audioCtx = new AudioContext();
+        const source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        active = true;
+        micOverlay.classList.add("hidden");
+        cancelAnimationFrame(animId);
+        drawLive();
+    } catch(e){
+        micOverlay.querySelector(".mic-sub").textContent = "microphone access denied";
+    }
+});
+
+function drawLive(){
+    if(!active) return;
+    analyser.getByteTimeDomainData(dataArray);
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(100,220,255,0.8)";
+    ctx.lineWidth = 2;
+    const sliceWidth = w / dataArray.length;
+    let x = 0;
+    for(let i = 0; i < dataArray.length; i++){
+        const v = dataArray[i] / 128.0;
+        const y = (v * h) / 2;
+        i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        x += sliceWidth;
+    }
+    ctx.stroke();
+    animId = requestAnimationFrame(drawLive);
+}
+</script>
 </body>
 </html>
-
