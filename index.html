@@ -85,11 +85,15 @@ section{ width:min(1100px, 90%); margin:auto; position:relative; }
 .card:hover::after{ opacity:1; }
 .card h3{ margin-bottom:16px; font-size:1.5rem; }
 .card p{ color:var(--dim); line-height:1.8; margin-bottom:28px; }
-.buttons{ display:flex; gap:14px; }
-.btn{ padding:12px 18px; border-radius:999px; border:1px solid rgba(120,220,255,0.2); color:var(--soft); text-decoration:none; transition:0.3s ease; }
+.buttons{ display:flex; gap:14px; position:relative; z-index:10; }
+.btn{
+    padding:12px 18px; border-radius:999px;
+    border:1px solid rgba(120,220,255,0.2);
+    color:var(--soft); text-decoration:none;
+    transition:0.3s ease; position:relative; z-index:10;
+    display:inline-block;
+}
 .btn:hover{ background:rgba(120,220,255,0.08); border-color:rgba(120,220,255,0.45); }
-
-/* mic visualizer */
 .featured{ padding:160px 0; }
 .wave-container{
     margin-top:40px; height:220px; border-radius:24px; overflow:hidden;
@@ -122,7 +126,6 @@ section{ width:min(1100px, 90%); margin:auto; position:relative; }
     margin-top:16px; font-size:0.75rem;
     color:rgba(120,180,220,0.7); letter-spacing:0.5px; line-height:1.7; padding-left:16px;
 }
-
 .contact{ padding:180px 0 120px; text-align:center; }
 .contact h2{ font-size:clamp(2rem,5vw,4rem); margin-bottom:28px; }
 .contact a{ color:var(--soft); text-decoration:none; font-size:1.05rem; border-bottom:1px solid rgba(120,220,255,0.25); padding-bottom:6px; }
@@ -137,18 +140,18 @@ footer{ text-align:center; color:rgba(180,220,255,0.4); padding-bottom:60px; fon
 </style>
 </head>
 <body>
-
+ 
 <div class="grid"></div>
 <div class="glow one"></div>
 <div class="glow two"></div>
 <div class="sonar"></div>
-
+ 
 <section class="hero">
     <h1>My Portfolio</h1>
-    <p>Signal processing • audio systems • low-level programming</p>
+    <p>Signal processing • FFT filtering • low-level audio in C</p>
     <div class="scroll">Scroll to descend ↓</div>
 </section>
-
+ 
 <section class="concept reveal">
     <div class="question-box">
         <div class="question">How do you extract meaning from noise?</div>
@@ -157,27 +160,20 @@ footer{ text-align:center; color:rgba(180,220,255,0.4); padding-bottom:60px; fon
         </div>
     </div>
 </section>
-
+ 
 <section class="projects reveal">
     <div class="section-title">Projects</div>
     <div class="project-grid">
         <div class="card">
-            <h3>Echolocation Project</h3>
-            <p>A WAV audio cleaner written in C inspired by signal filtering, frequency analysis, and underwater sonar systems.</p>
+            <h3>Audio Cleaner</h3>
+            <p>A command-line tool written in C that removes 60 Hz electrical hum from WAV audio files using a real FFT-based notch filter — implemented from scratch with no external libraries.</p>
             <div class="buttons">
-                <a class="btn" href="https://github.com/mariana-nikolyan/echolocation" target="_blank">View Project</a>
-            </div>
-        </div>
-        <div class="card">
-            <h3>FFT Analysis</h3>
-            <p>Experimental frequency-domain processing and spectral interpretation using low-level computational techniques.</p>
-            <div class="buttons">
-                <a class="btn" href="#">Explore</a>
+                <a class="btn" href="https://github.com/mariana-nikolyan/echolocation" target="_blank" rel="noopener noreferrer" onclick="window.open('https://github.com/mariana-nikolyan/echolocation','_blank');return false;">View Project</a>
             </div>
         </div>
     </div>
 </section>
-
+ 
 <section class="featured reveal">
     <div class="section-title">Live Signal</div>
     <div class="wave-container" id="waveContainer">
@@ -193,14 +189,14 @@ footer{ text-align:center; color:rgba(180,220,255,0.4); padding-bottom:60px; fon
         Note: your microphone is only active while this page is open and you have granted access. No audio is recorded, stored, or transmitted anywhere.
     </div>
 </section>
-
+ 
 <section class="contact reveal">
     <h2>Transmit a signal</h2>
     <a href="mailto:mariananikolyan19@gmail.com">mariananikolyan19@gmail.com</a>
 </section>
-
+ 
 <footer>End of transmission.</footer>
-
+ 
 <script>
 for(let i = 0; i < 60; i++){
     const p = document.createElement("div");
@@ -211,27 +207,27 @@ for(let i = 0; i < 60; i++){
     p.style.animationDelay = Math.random() * 10 + "s";
     document.body.appendChild(p);
 }
-
+ 
 const reveals = document.querySelectorAll(".reveal");
 const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("visible"); });
 }, { threshold:0.15 });
 reveals.forEach(r => observer.observe(r));
-
+ 
 const canvas = document.getElementById("waveCanvas");
 const ctx = canvas.getContext("2d");
 const waveContainer = document.getElementById("waveContainer");
 const micOverlay = document.getElementById("micOverlay");
-
+ 
 let animId, analyser, dataArray, active = false;
-
+ 
 function resizeCanvas(){
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 }
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-
+ 
 function drawIdle(){
     const w = canvas.width, h = canvas.height;
     ctx.clearRect(0,0,w,h);
@@ -247,7 +243,7 @@ function drawIdle(){
     animId = requestAnimationFrame(drawIdle);
 }
 drawIdle();
-
+ 
 waveContainer.addEventListener("click", async () => {
     if(active) return;
     try{
@@ -266,7 +262,7 @@ waveContainer.addEventListener("click", async () => {
         micOverlay.querySelector(".mic-sub").textContent = "microphone access denied";
     }
 });
-
+ 
 function drawLive(){
     if(!active) return;
     analyser.getByteTimeDomainData(dataArray);
